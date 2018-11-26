@@ -1,2 +1,2 @@
 # Bootcamp
-Este rar llamado Topic0 contiene los 4 ejercicios de dicho topic
+Este zip llamado Topic0 contiene los 4 ejercicios de dicho topic
