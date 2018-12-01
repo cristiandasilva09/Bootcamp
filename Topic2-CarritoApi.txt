@@ -1,0 +1,125 @@
+//ruta por la que se accedera a esta clase
+@Path("carrito")
+//la clase carrito tendra una lista de productos
+public class CarritoApi {   
+private static  List<Producto> lista = Carrito.getProductos();
+
+}
+NOTA:ejemplo url = localhost:8080/"nombreProyecto"/carrito/
+ejemplo url getProductos esto nos devolveria la lista de productos
+---------------------GET---------------------------------
+
+
+//indicamos que este metodo va a ser accedido por el metodo GET
+   //y producira una salida JSON
+     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProductos()
+    {
+     //indicamos que devolvera un ok(202) y la lista de productos   
+     return Response.ok(lista).build();
+    }
+-----------------------------------------------------------------------
+    //indicamos que este metodo va a ser accedido por el metodo GET
+    //y producira una salida JSON		
+    @GET
+    @Path("/{id}")
+     //le agregamos un path con el Id del producto, en el caso anterior 
+    //no es necesario,ya que al traer todos los productos del carrito 
+    //puede compartir el path de la clase, en este caso el path sera
+    //   /carrito/5 siendo 5 el id del producto por ejemplo 
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProducto(@PathParam("id")int id){
+        //creamos una instancia de la clase producto y le guardamos el id
+        //pasado por parametro
+	Producto producto = new Producto();
+        producto.setId(id);
+	//preguntammos a la lista si contiene el producto
+        if(lista.contains(producto))
+        {
+              //recorremos la lista encontrando el producto
+              //de ser asi nos devolvera un mensaje 200 de ok y el obj producto
+		for(Producto obj:lista)
+                if(obj.getId()==id)
+                    return Response.ok(obj).build();
+        }
+       //de no ser asi nos retornara un errir 404
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+NOTA=la comparacion de obj con el id solo sera posible si sobrecargamos equals
+de esta manera podremos comparar obejtos solo con su id 
+NOTA="@PathParam" se utiliza en el parametro con el cual podeos identificar el objeto
+en nuestro caso es el id
+------------------------------------------------------------------------
+
+-------------------------DELETE---------------------------------------
+    //etiqueta para indicar que usaremos el metodo delete y que el path
+    //le agregaremos al final la id del producto 
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response borrarProducto(@PathParam("id")int id){
+        //creamos un objeto producto y le aasignamos la id que pasamos
+	Producto producto = new Producto();
+        producto.setId(id);
+	//preguntamos si la lista contiene el producto
+        if(lista.contains(producto))
+        {           
+		    //de ser asi removemos el producto de la lista y tiramos un mensaje de ok
+                    //indicando que la accion se realizo, pero sin el obj ya que fue retirado	
+                    lista.remove(producto);
+                    return Response.ok().build();
+        }
+       //si no lo encuentra devolveremos el correspondiente mensaje NOT FOUND
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+------------------------------------------------------------------------
+
+
+-------------------------------POST--------------------------------------
+    //etiqueta del metodo 
+    @POST
+    //consumira un JSON que es de donde obtendra los datos del proucto
+    //y producira un JSON con el payload
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response guardarProducto(Producto producto){
+        //agregamos el producto a la lista y tiramos un created el cual tiene
+        //como codigo  201
+	lista.add(producto);
+        return Response.status(Response.Status.CREATED).entity(producto).build();
+    }
+
+NOTA: el payload de este post seria {id:"1" ,nombre: "harina", categoria"rosas", precio:"50" }
+siendo harina el producto agregado a la lista
+----------------------------------------------------------------------------------------------
+
+-----------------------------PUT-------------------------------------------
+   //etiqueta del metodo put el cual producira un JSON y tendra como path el id del
+   //objeto a modificar 
+    @PUT
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+       public Response modificarProducto(@PathParam("id")int id,String nombre,int categoria, float precio){
+        //creamos un producto con el id pasado por parametro
+	Producto producto = new Producto();
+        producto.setId(id);
+        if(lista.contains(producto))
+         {
+		//recorremos la lista buscando el objeto
+		//si lo encontramos mandamos el producto y los nuevos parametros a la funcion
+		//modificarProducto dentro de la clase producto y de respueta devolvemos un ok (mensaje 200)
+		for(Producto obj:lista)
+                if(obj.getId()==producto.getId()){
+                    producto.modificarProducto(producto, nombre, categoria, precio);
+                    return Response.ok().build();
+                }
+        }
+	//si no la encontramos tiraremos un mensaje NOT found
+      return Response.status(Response.Status.NOT_FOUND).build();
+    } 
+
+
+--------------------------------------------------------------------------
+}
