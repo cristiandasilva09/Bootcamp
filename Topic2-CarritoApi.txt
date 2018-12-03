@@ -73,6 +73,15 @@ en nuestro caso es el id
        //si no lo encuentra devolveremos el correspondiente mensaje NOT FOUND
       return Response.status(Response.Status.NOT_FOUND).build();
     }
+    //funcion que limpiara los productos del carrito y devolver un ok al terminar
+     @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response limpiarCarrito(){
+            lista.clear();
+            return Response.ok().build();
+   
+    }
+    
 
 ------------------------------------------------------------------------
 
@@ -96,30 +105,14 @@ siendo harina el producto agregado a la lista
 ----------------------------------------------------------------------------------------------
 
 -----------------------------PUT-------------------------------------------
-   //etiqueta del metodo put el cual producira un JSON y tendra como path el id del
-   //objeto a modificar 
-    @PUT
-    @Path("/{id}")
+   //funcion que modificara el precio de un producto y al finalizar devolvera un ok 
+   @PUT
     @Produces(MediaType.APPLICATION_JSON)
-       public Response modificarProducto(@PathParam("id")int id,String nombre,int categoria, float precio){
-        //creamos un producto con el id pasado por parametro
-	Producto producto = new Producto();
-        producto.setId(id);
-        if(lista.contains(producto))
-         {
-		//recorremos la lista buscando el objeto
-		//si lo encontramos mandamos el producto y los nuevos parametros a la funcion
-		//modificarProducto dentro de la clase producto y de respueta devolvemos un ok (mensaje 200)
-		for(Producto obj:lista)
-                if(obj.getId()==producto.getId()){
-                    producto.modificarProducto(producto, nombre, categoria, precio);
+       
+        public Response modificarPrrecioProducto(Producto p, float precio){
+            p.setPrecio(precio);
                     return Response.ok().build();
-                }
-        }
-	//si no la encontramos tiraremos un mensaje NOT found
-      return Response.status(Response.Status.NOT_FOUND).build();
     } 
-
 
 --------------------------------------------------------------------------
 }
