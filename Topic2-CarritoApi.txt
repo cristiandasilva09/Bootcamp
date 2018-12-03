@@ -106,13 +106,15 @@ siendo harina el producto agregado a la lista
 
 -----------------------------PUT-------------------------------------------
    //funcion que modificara el precio de un producto y al finalizar devolvera un ok 
-   @PUT
+  @PUT
+      @Path("producto/{id}")
     @Produces(MediaType.APPLICATION_JSON)
        
-        public Response modificarPrrecioProducto(Producto p, float precio){
+        public Response modificarPrrecioProducto(@PathParam("id") Producto p, float precio){
+            
             p.setPrecio(precio);
                     return Response.ok().build();
-    } 
+    }
 
 --------------------------------------------------------------------------
 }
