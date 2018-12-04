@@ -1,8 +1,8 @@
 //ruta por la que se accedera a esta clase
 @Path("carrito")
 //la clase carrito tendra una lista de productos
-public class CarritoApi {   
-private static  List<Producto> lista = Carrito.getProductos();
+public class Carrito {   
+private  List<Producto> lista =new ArrayList<Producto>();
 
 }
 NOTA:ejemplo url = localhost:8080/"nombreProyecto"/carrito/
@@ -20,6 +20,37 @@ ejemplo url getProductos esto nos devolveria la lista de productos
      return Response.ok(lista).build();
     }
 -----------------------------------------------------------------------
+
+-----------------------------------------------------------------------
+
+//indicamos que este metodo va a ser accedido por el metodo GET
+   //y producira una salida JSON
+     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCostototal()
+    {	//creamos una variable costo que guardara el la suma del costo de todos los productos
+      float costo=0;
+      //preguntamos si la lista de productos no esta vacia, si tiene productos los recorrera
+      //y sumara su costo
+    if(lista.isEmpty()==false){   
+     for(Producto obj:lista){
+         
+        
+         costo=costo+obj.getPrecio();
+	 //indicamos que devolvera un ok(202) y la lista de productos   
+     return Response.ok(costo).build();
+     }
+    }else{
+      	//si la lista esta vacia retornara ok y la variable costo que en este caso valdra 0  
+         return Response.ok(costo).build();
+       
+    }
+
+
+
+
+-----------------------------------------------------------------------
+
     //indicamos que este metodo va a ser accedido por el metodo GET
     //y producira una salida JSON		
     @GET
@@ -103,6 +134,9 @@ en nuestro caso es el id
 NOTA: el payload de este post seria {id:"1" ,nombre: "harina", categoria"rosas", precio:"50" }
 siendo harina el producto agregado a la lista
 ----------------------------------------------------------------------------------------------
+
+
+
 
 -----------------------------PUT-------------------------------------------
    //funcion que modificara el precio de un producto y al finalizar devolvera un ok 
