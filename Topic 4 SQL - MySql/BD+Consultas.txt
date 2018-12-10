@@ -1,0 +1,221 @@
+/*
+1 Create a database named 'high-school' and modelate:
+ */ 
+create DataBase `high-school`;
+
+create table `high-school`.`teacher`
+(
+idTTeacher int primary key,
+FirstName varchar(50),
+lasttName varchar(50),
+dateOfBirth date
+);
+
+create table `high-school`.`course`
+(
+name varchar(50) primary key,
+assignedTeacher int,
+hoursByWeek int,
+scheduleTime datetime,
+ foreign key (assignedTeacher) references teacher(idTTeacher)
+);
+
+create table `high-school`.`student`
+(
+registrationNumber int primary key,
+FirstName varchar(50),
+lasttName varchar(50),
+dateOfBirthstudent date
+);
+
+create table `high-school`.`course-student`
+(
+idStudent int ,
+nameCourse varchar(50) ,
+note1 int,
+note2 int,
+note3 int,
+primary key(idStudent,nameCourse),
+noteFinal int, foreign key (idStudent) references student(registrationNUmber),foreign key(nameCourse) references course(name)
+);
+
+
+alter table `high-school`.`course` drop scheduleTime ;
+create Table `high-school`.`scheduleTime`
+(
+nameCourse varchar(50) ,
+dayOfTheWeek date,
+initTime varchar(50),
+endTime varchar(50),
+constraint pk_Day primary key(nameCourse,dayOfTheWeek),
+foreign key (nameCourse) references course(name)
+);
+/*
+2 Insert data
+ */
+
+Insert into `high-school`.`teacher`values(1,'Juan','Perez','1980-05-06');
+Insert into `high-school`.`teacher`values(2,'Pedro','Gomez','1990-04-05');
+Insert into `high-school`.`teacher`values(3,'Maria','Rodriguez','1975-12-23');
+
+insert into `high-school`.`course`values('matematica',1,6,NOW());
+insert into `high-school`.`course`values('biologia',2,4,NOW());
+insert into `high-school`.`course`values('informatica',3,8,NOW());
+
+alter table `high-school`.`course` drop scheduleTime ;
+create Table `high-school`.`scheduleTime`
+(
+nameCourse varchar(50) ,
+dayOfTheWeek date,
+initTime varchar(50),
+endTime varchar(50),
+constraint pk_Day primary key(nameCourse,dayOfTheWeek),
+foreign key (nameCourse) references course(name)
+);
+
+insert into `high-school`.`scheduleTime` values('matematica','2018-12-09','15:00','18:00');
+insert into `high-school`.`scheduleTime` values('matematica','2018-12-14','15:00','18:00');
+insert into `high-school`.`scheduleTime` values('biologia','2018-12-10','12:00','16:00');
+insert into `high-school`.`scheduleTime` values('informatica','2018-12-11','12:00','16:00');
+insert into `high-school`.`scheduleTime` values('informatica','2018-12-12','12:00','16:00');
+
+update `high-school`.`scheduleTime` set dayOfTheWeek='2018-12-10' where nameCourse='matematica' and dayOfTheWeek='2018-12-09';
+
+Insert into `high-school`.`student`values(1,'Cristian','Da Silva','1994-12-23');
+Insert into `high-school`.`student`values(2,'Emiliano','Da Silva','1993-09-05');
+Insert into `high-school`.`student`values(3,'Florencia','Da Silva','1995-09-09');
+Insert into `high-school`.`student`values(4,'Andres','Maza','1994-07-15');
+Insert into `high-school`.`student`values(5,'Mateo','Cerruti','1994-03-12');
+Insert into `high-school`.`student`values(6,'Agustin','Maza','1995-07-23');
+Insert into `high-school`.`student`values(7,'Rodrigo','Garcia','1994-08-14');
+Insert into `high-school`.`student`values(8,'Adrian','Rios','1994-03-14');
+Insert into `high-school`.`student`values(9,'Diego','Beron','1995-02-14');
+Insert into `high-school`.`student`values(10,'Juan','Pilon','1994-06-14');
+Insert into `high-school`.`student`values(11,'Bruno','Vuille','1994-06-20');
+
+Insert into `high-school`.`course-student`values(1,'matematica',8,8,9,8);
+Insert into `high-school`.`course-student`values(2,'matematica',7,8,5,7);
+Insert into `high-school`.`course-student`values(3,'matematica',8,8,9,8);
+Insert into `high-school`.`course-student`values(4,'matematica',3,7,9,6);
+Insert into `high-school`.`course-student`values(5,'matematica',4,1,4,3);
+Insert into `high-school`.`course-student`values(6,'matematica',5,8,9,7);
+Insert into `high-school`.`course-student`values(7,'matematica',8,8,8,8);
+Insert into `high-school`.`course-student`values(8,'matematica',6,6,7,6);
+Insert into `high-school`.`course-student`values(9,'matematica',1,3,2,2);
+Insert into `high-school`.`course-student`values(10,'matematica',10,10,9,10);
+
+Insert into `high-school`.`curse-student`values(1,'biologia',8,8,9,8);
+Insert into `high-school`.`curse-student`values(2,'biologia',7,8,5,7);
+Insert into `high-school`.`curse-student`values(3,'biologia',8,6,1,5);
+Insert into `high-school`.`curse-student`values(4,'biologia',3,7,9,6);
+Insert into `high-school`.`curse-student`values(5,'biologia',4,1,4,3);
+Insert into `high-school`.`curse-student`values(6,'biologia',5,8,9,7);
+Insert into `high-school`.`curse-student`values(7,'biologia',1,2,1,1);
+Insert into `high-school`.`curse-student`values(8,'biologia',10,9,10,10);
+Insert into `high-school`.`curse-student`values(9,'biologia',11,11,10,11);
+Insert into `high-school`.`curse-student`values(11,'biologia',12,12,12,12);
+
+Insert into `high-school`.`curse-student`values(1,'informatica',8,8,9,8);
+Insert into `high-school`.`curse-student`values(2,'informatica',7,8,5,7);
+Insert into `high-school`.`curse-student`values(3,'informatica',8,6,1,5);
+Insert into `high-school`.`curse-student`values(4,'informatica',3,7,9,6);
+Insert into `high-school`.`curse-student`values(5,'informatica',4,1,4,3);
+Insert into `high-school`.`curse-student`values(6,'informatica',5,8,9,7);
+Insert into `high-school`.`curse-student`values(7,'informatica',1,2,1,1);
+Insert into `high-school`.`curse-student`values(8,'informatica',2,2,2,2);
+Insert into `high-school`.`curse-student`values(10,'informatica',4,5,4,4);
+Insert into `high-school`.`curse-student`values(11,'informatica',12,12,11,12);
+
+RENAME TABLE `high-school`.`curse-student` TO `high-school`.`course-student`;
+commit;
+/* 3
+	List students and teachers for a given course. The output format should be:
+
+ Course: <course-name>
+ Teacher: <last-name>, <first-name>
+ Students:
+   <last-name>, <first-name> (ordered by alphabetically by last name)*/
+ 
+ select concat('Course: <',CS.nameCourse,'>'),concat('Teacher: <',t.FirstName,'>',',','<',t.lasttName,'>'),concat('Students: <',S.FirstName,'>',',','<',S.lasttName,'>')
+ from `course-student` CS
+ join course C on CS.nameCourse=C.name
+ join teacher T on C.assignedTeacher =T.idTTEacher
+ join student S on S.registrationNumber= cs.idStudent
+ order by S.lasttName;
+ 
+ /*4
+ Percentage of students that passed/failed a given course.
+ */
+ 
+ select CS.nameCourse ,concat('%',(count(CS.idStudent)/10*100)) from  `course-student`CS 
+ join Course C on  CS.nameCourse=C.name
+ where noteFinal>=6
+ group by Cs.nameCourse;
+ 
+ /*5
+ For a given teacher, list the timeline for each course that he is assigned to (ordered by date), and the course name. The format should be:
+
+ Teacher: <last-name>, <first-name>
+ Schedule:
+   Monday 09:00 - 11:00: <course-name>
+   Monday 15:00 - 17:30: <course-name>
+   Friday 08:45 - 10:40: <course-name>
+ 
+ */
+ 
+ select  concat('Teacher: <',t.FirstName,'> , <',t.lasttName,'>') as 'tach',
+ concat('Schedule: ',dayname(ST.dayOfTheWeek), ST.initTime,'-',ST.endTime,'<',ST.nameCourse,'>') as 'schedule'
+ from Teacher T
+ join course C on T.idTTeacher=C.assignedTeacher
+ join scheduleTime ST on C.name=ST.nameCourse
+ order by  ST.dayOfTheWeek, ST.initTime;
+ 
+ 
+ 
+ /* 6
+	-----------------------CONSULTAS OPTIMIZADAS-------------------------------*/
+ 
+/*List students and teachers for a given course. The output format should be:
+
+ Course: <course-name>
+ Teacher: <last-name>, <first-name>
+ Students:
+   <last-name>, <first-name> (ordered by alphabetically by last name)*/
+ 
+ select SQL_SMALL_RESULT concat('Course: <',CS.nameCourse,'>'),concat('Teacher: <',t.FirstName,'>',',','<',t.lasttName,'>'),concat('Students: <',S.FirstName,'>',',','<',S.lasttName,'>')
+ from `course-student` CS
+ join course C on CS.nameCourse=C.name
+ join teacher T on C.assignedTeacher =T.idTTEacher
+ join student S on S.registrationNumber= cs.idStudent
+ order by S.lasttName;
+ 
+ /*
+ Percentage of students that passed/failed a given course.
+ */
+ 
+ select SQL_SMALL_RESULT CS.nameCourse ,concat('%',(count(CS.idStudent)/10*100)) from  `course-student`CS 
+ join Course C on  CS.nameCourse=C.name
+ where noteFinal>=6
+ group by Cs.nameCourse;
+ 
+ /*
+ For a given teacher, list the timeline for each course that he is assigned to (ordered by date), and the course name. The format should be:
+
+ Teacher: <last-name>, <first-name>
+ Schedule:
+   Monday 09:00 - 11:00: <course-name>
+   Monday 15:00 - 17:30: <course-name>
+   Friday 08:45 - 10:40: <course-name>
+ 
+ */
+ 
+ select  SQL_SMALL_RESULT concat('Teacher: <',t.FirstName,'> , <',t.lasttName,'>') as 'tach',
+ concat('Schedule: ',dayname(ST.dayOfTheWeek), ST.initTime,'-',ST.endTime,'<',ST.nameCourse,'>') as 'schedule'
+ from Teacher T
+ join course C on T.idTTeacher=C.assignedTeacher
+ join scheduleTime ST on C.name=ST.nameCourse
+ order by  ST.dayOfTheWeek, ST.initTime;
+ 
+ 
+
+ 

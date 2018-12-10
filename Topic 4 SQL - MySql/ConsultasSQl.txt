@@ -1,0 +1,89 @@
+/* 3
+	List students and teachers for a given course. The output format should be:
+
+ Course: <course-name>
+ Teacher: <last-name>, <first-name>
+ Students:
+   <last-name>, <first-name> (ordered by alphabetically by last name)*/
+ 
+ select concat('Course: <',CS.nameCourse,'>'),concat('Teacher: <',t.FirstName,'>',',','<',t.lasttName,'>'),concat('Students: <',S.FirstName,'>',',','<',S.lasttName,'>')
+ from `course-student` CS
+ join course C on CS.nameCourse=C.name
+ join teacher T on C.assignedTeacher =T.idTTEacher
+ join student S on S.registrationNumber= cs.idStudent
+ order by S.lasttName;
+ 
+ /*4
+ Percentage of students that passed/failed a given course.
+ */
+ 
+ select CS.nameCourse ,concat('%',(count(CS.idStudent)/10*100)) from  `course-student`CS 
+ join Course C on  CS.nameCourse=C.name
+ where noteFinal>=6
+ group by Cs.nameCourse;
+ 
+ /*5
+ For a given teacher, list the timeline for each course that he is assigned to (ordered by date), and the course name. The format should be:
+
+ Teacher: <last-name>, <first-name>
+ Schedule:
+   Monday 09:00 - 11:00: <course-name>
+   Monday 15:00 - 17:30: <course-name>
+   Friday 08:45 - 10:40: <course-name>
+ 
+ */
+ 
+ select  concat('Teacher: <',t.FirstName,'> , <',t.lasttName,'>') as 'tach',
+ concat('Schedule: ',dayname(ST.dayOfTheWeek), ST.initTime,'-',ST.endTime,'<',ST.nameCourse,'>') as 'schedule'
+ from Teacher T
+ join course C on T.idTTeacher=C.assignedTeacher
+ join scheduleTime ST on C.name=ST.nameCourse
+ order by  ST.dayOfTheWeek, ST.initTime;
+ 
+ 
+ 
+ /* 6
+	-----------------------CONSULTAS OPTIMIZADAS-------------------------------*/
+ 
+/*List students and teachers for a given course. The output format should be:
+
+ Course: <course-name>
+ Teacher: <last-name>, <first-name>
+ Students:
+   <last-name>, <first-name> (ordered by alphabetically by last name)*/
+ 
+ select SQL_SMALL_RESULT concat('Course: <',CS.nameCourse,'>'),concat('Teacher: <',t.FirstName,'>',',','<',t.lasttName,'>'),concat('Students: <',S.FirstName,'>',',','<',S.lasttName,'>')
+ from `course-student` CS
+ join course C on CS.nameCourse=C.name
+ join teacher T on C.assignedTeacher =T.idTTEacher
+ join student S on S.registrationNumber= cs.idStudent
+ order by S.lasttName;
+ 
+ /*
+ Percentage of students that passed/failed a given course.
+ */
+ 
+ select SQL_SMALL_RESULT CS.nameCourse ,concat('%',(count(CS.idStudent)/10*100)) from  `course-student`CS 
+ join Course C on  CS.nameCourse=C.name
+ where noteFinal>=6
+ group by Cs.nameCourse;
+ 
+ /*
+ For a given teacher, list the timeline for each course that he is assigned to (ordered by date), and the course name. The format should be:
+
+ Teacher: <last-name>, <first-name>
+ Schedule:
+   Monday 09:00 - 11:00: <course-name>
+   Monday 15:00 - 17:30: <course-name>
+   Friday 08:45 - 10:40: <course-name>
+ 
+ */
+ 
+ select  SQL_SMALL_RESULT concat('Teacher: <',t.FirstName,'> , <',t.lasttName,'>') as 'tach',
+ concat('Schedule: ',dayname(ST.dayOfTheWeek), ST.initTime,'-',ST.endTime,'<',ST.nameCourse,'>') as 'schedule'
+ from Teacher T
+ join course C on T.idTTeacher=C.assignedTeacher
+ join scheduleTime ST on C.name=ST.nameCourse
+ order by  ST.dayOfTheWeek, ST.initTime;
+ 
+ 
