@@ -33,16 +33,6 @@ public class SwaggerConfig {
                 .paths(regex("/api.*"))
                 .build();
     }
-     @Bean
-    public Docket newsApiProd() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("product")
-                .apiInfo(apiInfo())
-                .directModelSubstitute(LocalDateTime.class, Date.class)
-                .select()
-                .paths(regex("/product.*"))
-                .build();
-    }
  
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
