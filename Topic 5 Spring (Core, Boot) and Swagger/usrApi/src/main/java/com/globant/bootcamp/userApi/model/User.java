@@ -20,25 +20,25 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "user")
-@ApiModel(value = "Info entity", description = "Complete data of a entity Info")
+@ApiModel(value = "User entity", description = "Complete data of a entity User")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    @ApiModelProperty(value = "The id of the info", required = false)
+    @ApiModelProperty(value = "The id of the user", required = false)
     private Long idUser;
     @Column(name = "firstName")
-    @ApiModelProperty(value = "The text of the info", required = true)
+    @ApiModelProperty(value = "The firstname of the user", required = true)
     private String firstName;
     @Column(name = "lastName")
-    @ApiModelProperty(value = "The text of the info", required = true)
+    @ApiModelProperty(value = "The lastname of the user", required = true)
     private String lastName;
     @Column(name = "nickName")
-    @ApiModelProperty(value = "The text of the info", required = true)
+    @ApiModelProperty(value = "The nickname of the user", required = true)
     private String nickName;
     @Column(name = "password")
-    @ApiModelProperty(value = "The text of the info", required = true)
+    @ApiModelProperty(value = "The password of the user", required = true)
     private String password;
 
     public User() {

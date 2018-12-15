@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(
         path = "/user",
         produces = MediaType.APPLICATION_JSON_VALUE)
-        @Api(value = "infos", description = "Infos API", produces = "application/json")
+        @Api(value = "uses", description = "Users API", produces = "application/json")
 public class UserController {
 
     private final UserService service;

@@ -1,4 +1,4 @@
-package com.globant.bootcamp.cart.CartApi;
+package com.globant.bootcamp.cartApi;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,3 +14,4 @@ public class CartApiApplicationTests {
 	}
 
 }
+

@@ -3,13 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.globant.bootcamp.cart.CartApi;
-
+package com.globant.bootcamp.cartApi.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.util.Optional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -18,18 +25,38 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "product")
+@ApiModel(value = "product entity", description = "Complete data of a entity product")
 public class Product {
      @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
+   @ApiModelProperty(value = "The id of the product", required = false) 
     private Long idProduct;
     @Column(name = "nameProduct")
+    @ApiModelProperty(value = "The name of the product", required = true)
     private String nameProduct;
     @Column(name = "category")
+    @ApiModelProperty(value = "The category of the product", required = true)
     private int  category;
     @Column(name = "price")
+    @ApiModelProperty(value = "The price of the product", required = true)
     private float  price;
+     
+  //  @Column(name = "cart")
+    @JsonBackReference
+    @ManyToOne()
+    @JoinColumn(name="idCart")
 
+    private Cart  cart;
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+     
     public Product() {
     }
 
@@ -91,3 +118,4 @@ public class Product {
 
     
 }
+
