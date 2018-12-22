@@ -1,0 +1,203 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addProductCart`(in idU long,idC long,idP long,quant int,total float)
+BEGIN
+insert into  `product-cart` values(idU,idC,idP,quant,total);
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteCart`(in id long,idU long)
+BEGIN
+delete from `product-cart` where `product-cart`.idCart=id;
+delete from cart where idCart=id and idUser=idU;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `createUser`(in idUs long,nameUs varchar(50),lastNameUs varchar(50),nicknameUs varchar(50),passwordUs varchar(50),moneyy float)
+BEGIN
+insert into user values(idUs,nameUs,lastNameUs,nicknameUs,passwordUs,moneyy);
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `createProduct`(in id long,nameU varchar(50),cat varchar(50),price float)
+BEGIN
+insert into product values(id,nameU,cat,price);
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `buyCart`(in buyed boolean,dateB date,idU long,idUs long)
+BEGIN
+update cart set buyed=buyed,dateBuy=dateB where idCart=idU and idUser=idUs;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `changeQuiantityProductCart`(in quiantity int, idP long, idC long, idU long)
+BEGIN
+update `product-cart` set quantity =quiantity where `product-cart`.idProduct=idP and `product-cart`.idCart=idC and `product-cart`.idUser=idU;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteProduct`(in id long)
+BEGIN
+delete from product where idProduct=id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteProductCart`(in idProd long,  idC long)
+BEGIN
+delete from `product-cart` where  `product-cart`.idProduct=idProd and `product-cart`.idcart=idC;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteUser`(in id long)
+BEGIN
+delete from user where idUser=id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findAllCartsByUser`(in id long)
+BEGIN
+select * from cart  where cart.idUser=id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findAllProducts`()
+BEGIN
+select * from product;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findAllProductsByCart`(in id long)
+BEGIN
+select * from `product-cart` JOIN `product` ON `product`.idProduct= `product-cart`.idProduct where `product-cart`.idCart=id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findAllUsers`()
+BEGIN
+select * from user;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findProductByCart`(in idCar long, idProd long)
+BEGIN
+select * from `product-cart` JOIN `product` ON `product`.idProduct= `product-cart`.idProduct where `product-cart`.idCart=idCar and
+                `product-cart`.idProduct=idProd;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findProductByCategory`(in cat varchar(50))
+BEGIN
+select * from product where  category=cat;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findProductById`(in id long)
+BEGIN
+select * from product where idProduct=id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findProductByName`(in nameProd varchar(50))
+BEGIN
+select * from product where  nameProduct=nameProd;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findUserById`(in idUs long)
+BEGIN
+select * from user where idUser=idUs;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findUserByName`(in nameClient varchar(50))
+BEGIN
+select * from user where  firstName=nameClient;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findUserByNickName`(in nickUser varchar(50))
+BEGIN
+select * from user where nickName=nickUser;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `findrecomendedProduct`(in id long)
+BEGIN
+select idProduct,nameProduct,category,price
+from `product` p 
+where p.category in(
+select distinct category 
+FROM `product-cart` pc
+JOIN `product` p1
+ ON pc.idProduct= p1.idProduct 
+ where pc.idUser=id)
+ and p.idProduct not in
+ (
+select distinct p2.idProduct 
+ FROM `product-cart` pc2
+ join `product` p2 ON pc2.idProduct= p2.idProduct 
+ where pc2.idUser=id);
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getCart`(in id long)
+BEGIN
+select * from cart  where cart.idCart=id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getTotalCostCart`(in id long)
+BEGIN
+select sum(totalImport) from `product-cart` where idCart=id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `saveCart`(in idU long,idC long,buyed boolean,dateB date)
+BEGIN
+insert into cart  values(idU,idC,buyed,dateB);
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateProduct`(in id long,nameU varchar(50),cat varchar(50),priceP float)
+BEGIN
+update product set nameProduct=nameU,category=cat,price=priceP where idProduct=id;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateUser`(in idUs long,nameUs varchar(50),lastNameUs varchar(50),nicknameUs varchar(50),passwordUs varchar(50),moneyy float)
+BEGIN
+update user set firstName=nameUs,lastName=lastNameUs,nickname=nicknameUs,password=passwordUs,money=moneyy where idUser=idUs;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateUsermoney`(in moneyU float, idUserU long)
+BEGIN
+update `user` set money=moneyU where `user`.idUser=idUserU;
+END$$
+DELIMITER ;
